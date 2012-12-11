@@ -10,8 +10,8 @@ class PropietarioBosquesForm(ModelForm):
                                                     widget = forms.CheckboxSelectMultiple())
     organizado = forms.ModelMultipleChoiceField(queryset = Organizado.objects.order_by('nombre'),
                                                     widget = forms.CheckboxSelectMultiple())
-    #organizacion = forms.ModelMultipleChoiceField(queryset = Organizacion.objects.order_by('nombre'),
-     #                                             required=False)
+    organizacion = forms.ModelMultipleChoiceField(queryset = Organizacion.objects.order_by('nombre'),
+                                                  required=False)
     tipo_producto = forms.ModelMultipleChoiceField(queryset = TipoProducto.objects.order_by('nombre'),
                                                     widget = forms.CheckboxSelectMultiple(), required=False)
     procesos_industriales = forms.ModelMultipleChoiceField(queryset = ProcesoIndustrialBosque.objects.order_by('nombre'),
@@ -26,7 +26,8 @@ class PropietarioBosquesForm(ModelForm):
                                                     widget = forms.CheckboxSelectMultiple())
     extraccion = forms.ModelMultipleChoiceField(queryset = MetodoExtraccion.objects.order_by('nombre'),
                                                     widget = forms.CheckboxSelectMultiple())
-
+    tipo_certificacion = forms.ModelMultipleChoiceField(queryset = TipoCertificacion.objects.order_by('nombre'),
+                                                    widget = forms.CheckboxSelectMultiple())
     # def __init__(self, *args, **kwargs):
     #     super(PropietarioBosquesForm, self).__init__(*args, **kwargs)
     #     rel = ManyToOneRel(self.instance.tipo_producto.model, 'id') 
@@ -44,6 +45,8 @@ SINO_CHOICE = (
 
 class RegenteForm(ModelForm):
     area_trabajo = forms.ModelMultipleChoiceField(queryset = AreaTrabajo.objects.order_by('nombre'),
+                                                  widget = forms.CheckboxSelectMultiple())
+    organizacion = forms.ModelMultipleChoiceField(queryset = Organizacion.objects.order_by('nombre'),
                                                   widget = forms.CheckboxSelectMultiple())
     class Meta:
         model = RegenteForestal
@@ -77,7 +80,7 @@ class SegundaTForm(ModelForm):
                                                   widget = forms.CheckboxSelectMultiple())
     apoyo_produccion = forms.ModelMultipleChoiceField(queryset = ApoyoProduccion.objects.order_by('nombre'),
                                                   widget = forms.CheckboxSelectMultiple())
-    productos_vende = forms.ModelMultipleChoiceField(queryset = ProductosVendenSegunda.objects.order_by('nombre'),
+    producto_vende = forms.ModelMultipleChoiceField(queryset = ProductosVendenSegunda.objects.order_by('nombre'),
                                                   widget = forms.CheckboxSelectMultiple())
     no_maderable = forms.ModelMultipleChoiceField(queryset = NoMaderable.objects.order_by('nombre'),
                                                   widget = forms.CheckboxSelectMultiple())
@@ -118,11 +121,11 @@ class FiltroBosquesForm(forms.Form):
 
 class PrimeraTransformacionForm(forms.Form):
     org_empresarial = forms.ModelChoiceField(queryset=OrganizacionEmpresarial.objects.all(), 
-                                            label=u'Organizacion',
+                                            label=u'Organización',
                                             required=False)
     gobierno_gti = forms.ChoiceField(choices=SINO_CHOICE, label=u'Gobierno GTI', required=False)
     area_trabajo = forms.ModelChoiceField(queryset=TrabajoTranformacion.objects.all(), 
-                                            label=u'Area de Trabajo',
+                                            label=u'Área de trabajo',
                                             required=False)
     productos_venden = forms.ModelChoiceField(queryset=ProductosVenden.objects.all(), 
                                             label=u'Productos que venden',
@@ -130,11 +133,11 @@ class PrimeraTransformacionForm(forms.Form):
 
 class SegundaTransformacionForm(forms.Form):
     org_empresarial = forms.ModelChoiceField(queryset=OrganizacionEmpresarial.objects.all(), 
-                                            label=u'Organizacion',
+                                            label=u'Organización',
                                             required=False)
     gobierno_gti = forms.ChoiceField(choices=SINO_CHOICE, label=u'Gobierno GTI', required=False)
     area_trabajo = forms.ModelChoiceField(queryset=AreaTrabajoSegunda.objects.all(), 
-                                            label=u'Area de Trabajo',
+                                            label=u'Área de trabajo',
                                             required=False)
     producto_vende = forms.ModelChoiceField(queryset=ProductosVendenSegunda.objects.all(), 
                                             label=u'Productos que venden',
@@ -145,5 +148,5 @@ class RegenteForestalForm(forms.Form):
                                             label=u'Organizado',
                                             required=False)
     area_trabajo = forms.ModelChoiceField(queryset=AreaTrabajo.objects.all(), 
-                                            label=u'Area de Trabajo',
+                                            label=u'Área de trabajo',
                                             required=False)

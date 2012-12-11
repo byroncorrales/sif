@@ -55,7 +55,7 @@ class Organizacion(models.Model):
     def __unicode__(self):
         return self.nombre
     class Meta:
-        verbose_name_plural = "Organizacion"
+        verbose_name_plural = "Organización"
         
 class GobiernoGti(models.Model):
     nombre = models.CharField(max_length=200)
@@ -63,7 +63,7 @@ class GobiernoGti(models.Model):
     def __unicode__(self):
         return self.nombre
     class Meta:
-        verbose_name_plural = "Gobiernos territoriales indigenas"
+        verbose_name_plural = "Gobiernos territoriales indígenas"
 
 class EspeciesNaturales(models.Model):
     nombre = models.CharField(max_length=200)
@@ -79,7 +79,7 @@ class EspeciesIntroducidas(models.Model):
     def __unicode__(self):
         return self.nombre
     class Meta:
-        verbose_name_plural = "Especies plantaciones introducidas"
+        verbose_name_plural = "Especies de plantaciones introducidas"
         
 class Madera(models.Model):
     nombre = models.CharField(max_length=200)
@@ -90,13 +90,13 @@ class Madera(models.Model):
         verbose_name_plural = "Madera"
 
 MADERA_PROCESADAS_CHOICE = (
-    (1, 'Con moto sierras'),
+    (1, 'Con moto sierra'),
     (2, 'Aserradero')
 )
 
 CONSUMO_CHOICE = (
     (1, 'Nacional'),
-    (2, 'Exportacion'),
+    (2, 'Exportación'),
     (3, 'Ambos')
 )
 
@@ -106,7 +106,7 @@ class TipoProducto(models.Model):
     def __unicode__(self):
         return self.nombre
     class Meta:
-        verbose_name_plural = "Tipo de productos"
+        verbose_name_plural = "Tipo de producto"
         
 class ProcesoIndustrialBosque(models.Model):
     nombre = models.CharField(max_length=200)
@@ -122,7 +122,7 @@ class TipoSecados(models.Model):
     def __unicode__(self):
         return self.nombre
     class Meta:
-        verbose_name_plural = "Tipos de secados"
+        verbose_name_plural = "Tipos de secado"
 
 class BuenasPracticas(models.Model):
     nombre = models.CharField(max_length=200)
@@ -168,7 +168,7 @@ class TipoCertificacion(models.Model):
 class SocialesEconomico(models.Model):
     nombre = models.CharField('Nombre', max_length=200)
     class Meta:
-        verbose_name = ('Sociales y económico')
+        verbose_name = ('Sociales y económicos')
         verbose_name_plural = ('Sociales y económicos')
 
     def __unicode__(self):
@@ -186,8 +186,8 @@ class Ambientales(models.Model):
 class ProVendenBosque(models.Model):
     nombre = models.CharField(max_length=200)
     class Meta:
-        verbose_name = ('Tipo de producto que venden manejo de bosque')
-        verbose_name_plural = ('Tipo de producto que venden manejo de bosque')
+        verbose_name = ('Tipo de producto que venden en manejo de bosque')
+        verbose_name_plural = ('Tipo de producto que venden en manejo de bosque')
 
     def __unicode__(self):
         return self.nombre
@@ -215,7 +215,7 @@ class PropietarioBosques(models.Model):
                                            help_text='Nombre de la propiedad')
     #registro_catastral = models.CharField(max_length=200, help_text='No. registro catrastal') #se va
     tipo_propiedad = models.ManyToManyField(TipoPropiedadBosque)
-    area_propiedad = models.FloatField('Área total de la propiedad en ha', help_text='área total en ha')
+    area_propiedad = models.FloatField('Área total de la propiedad en ha', help_text='Área total en ha')
     tel_convencional = models.CharField('Teléfono convencional', max_length=15, null=True, blank=True)
     tel_celular = models.CharField('Teléfono celular', max_length=15, null=True, blank=True)
     email = models.EmailField('Correo electrónico', null=True, blank=True)
@@ -241,9 +241,9 @@ class PropietarioBosques(models.Model):
     )
     
     organizado = models.ManyToManyField(Organizado)
-    organizacion = models.ManyToManyField(Organizacion, verbose_name="Nombre organizacion", null=True, blank=True)
+    organizacion = models.ManyToManyField(Organizacion, verbose_name="Nombre de organización", null=True, blank=True)
     desde = models.DateField('Desde cuando', null=True, blank=True)
-    gobierno_gti = models.IntegerField('Gobierno territorial indigena (GTI)', choices=SINO_CHOICE)
+    gobierno_gti = models.IntegerField('Gobierno territorial indígena (GTI)', choices=SINO_CHOICE)
     nombre_gti = models.ForeignKey(GobiernoGti, null=True, blank=True)
     naturales = models.ManyToManyField(EspeciesNaturales, verbose_name='Especies naturales')
     #introducida = models.ManyToManyField(EspeciesIntroducidas, verbose_name='Especies introducidas')
@@ -260,7 +260,7 @@ class PropietarioBosques(models.Model):
     nombre_umf = models.CharField('Nombre de la UMF', max_length=200)
     area_umf = models.FloatField('Área de la UMF (ha)')
     codigo_umf = models.CharField('Código de la UMF (INAFOR)', max_length=200)
-    periodo_vigencia = models.IntegerField('Periodo de vigencia (años)')
+    periodo_vigencia = models.IntegerField('Período de vigencia (años)')
     poas_umf = models.IntegerField('POAS en la UMF')
     bosques_umf = models.ManyToManyField(TipoBosqueUmf)
     extraccion = models.ManyToManyField(MetodoExtraccion)
@@ -270,7 +270,7 @@ class PropietarioBosques(models.Model):
     otro_social = models.ManyToManyField(SocialesEconomico, null=True, blank=True)
     otro_ambiental = models.ManyToManyField(Ambientales, null=True, blank=True)
     tipo_certificacion = models.ManyToManyField(TipoCertificacion, 
-                        verbose_name="Tipo de certificacion")
+                        verbose_name="Tipo de certificación")
 
     year = models.IntegerField(editable=False)
 
@@ -278,7 +278,7 @@ class PropietarioBosques(models.Model):
         from django.core.exceptions import ValidationError
     
         if self.area_umf > self.area_propiedad:
-            raise ValidationError('El area de la UMF no puede ser Mayor al Area total de la propiedad')
+            raise ValidationError('El área de la UMF no puede ser mayor al área total de la propiedad')
     
     def save(self, *args, **kwargs):
         self.year = self.fecha.year
@@ -305,7 +305,7 @@ class Seguimiento(models.Model):
         return self.propietario.nombre_propietario
         
     class Meta:
-        verbose_name_plural = "Datos para seguimiento de manejo de bosques"
+        verbose_name_plural = "Seguimiento de manejo de bosques"
         unique_together = ('propietario',)
 
 CERTIFICADO_CHOICE = (
@@ -357,8 +357,8 @@ class Datos(models.Model):
     registro_orfn = models.CharField('Registro ORFN', max_length=200)
     #certificado = models.IntegerField(choices=CERTIFICADO_CHOICE)
     tipo_certificacion = models.ManyToManyField(TipoCertificacion, 
-                        verbose_name="Tipo de certificacion")
-    estado_certificado = models.IntegerField(choices=ESTADO_CERTIFICADO_CHOICE)
+                        verbose_name="Tipo de certificación")
+    estado_certificado = models.IntegerField(choices=ESTADO_CERTIFICADO_CHOICE, null=True, blank=True)
     visita_auditoria = models.DateField(null=True, blank=True)
     auditor = models.ForeignKey(Auditor, null=True, blank=True)
     entidad_certificadora = models.ForeignKey(EntidadCertificadora, null=True, blank=True)
@@ -406,8 +406,8 @@ class AreaTrabajo(models.Model):
     nombre = models.CharField(max_length=100)
 
     class Meta:
-        verbose_name = ('Area de trabajo')
-        verbose_name_plural = ('Area de trabajo')
+        verbose_name = ('Área de trabajo')
+        verbose_name_plural = ('Área de trabajo')
 
     def __unicode__(self):
         return self.nombre
@@ -442,7 +442,7 @@ class RegenteForestal(models.Model):
     fecha_acreditacion = models.DateField()
     experiencia = models.IntegerField()
     organizado = models.ManyToManyField(Organizado)
-    organizacion = models.ManyToManyField(Organizacion, verbose_name="Nombre organizacion", null=True, blank=True)
+    organizacion = models.ManyToManyField(Organizacion, verbose_name="Nombre organización", null=True, blank=True)
     desde = models.DateField('Desde', null=True, blank=True)
     area_trabajo = models.ManyToManyField(AreaTrabajo)
     perfil = models.TextField()
@@ -460,8 +460,9 @@ class SeguimientoRegente(models.Model):
     regente = models.ForeignKey(RegenteForestal)
 
     class Meta:
-        verbose_name = ('Seguimiento Regente forestal')
-        verbose_name_plural = ('Seguimiento Regente forestal')
+        verbose_name = ('Seguimiento regente forestal')
+        verbose_name_plural = ('Seguimiento regente forestal')
+        unique_together = ('regente',)
 
     def __unicode__(self):
         return self.regente.nombre_regente
@@ -485,8 +486,8 @@ class DatosSeguimientoRegente(models.Model):
         return self.no_pgmf_regencia
         
     class Meta:
-        verbose_name = ('Seguimiento Datos regente forestal')
-        verbose_name_plural = ('Seguimiento Datos regente forestal')
+        verbose_name = ('Seguimiento datos regente forestal')
+        verbose_name_plural = ('Seguimiento datos regente forestal')
 
 #--------------------------- Empresa forestal de primera tranformacion ------------------
 
@@ -512,8 +513,8 @@ class TrabajoTranformacion(models.Model):
     nombre = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name = ('Trabajo Tranformacion')
-        verbose_name_plural = ('Trabajo Tranformaciones')
+        verbose_name = ('Trabajo transformación')
+        verbose_name_plural = ('Trabajo transformaciones')
 
     def __unicode__(self):
         return self.nombre
@@ -522,8 +523,8 @@ class ServicioSecado(models.Model):
     nombre = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name = ('Servicio secado de la madera')
-        verbose_name_plural = ('Servicio secado de la maderas')
+        verbose_name = ('Servicio de secado de la madera')
+        verbose_name_plural = ('Servicio de secado de la madera')
 
     def __unicode__(self):
         return self.nombre
@@ -550,7 +551,7 @@ class EmpresaPrimeraTransformacion(models.Model):
     cedula = models.CharField(max_length=50)
     alianza = models.ManyToManyField(AlianzaNegocio)
     organizado = models.ManyToManyField(Organizado)
-    desde = models.DateField()
+    desde = models.DateField(null=True, blank=True)
     tel_convencional = models.CharField(max_length=50, null=True, blank=True)
     tel_celular = models.CharField(max_length=50, null=True, blank=True)
     correo = models.EmailField(null=True, blank=True)
@@ -573,7 +574,7 @@ class EmpresaPrimeraTransformacion(models.Model):
     )
     latitud = models.FloatField(null=True, blank=True)
     longitud = models.FloatField(null=True, blank=True)
-    gobierno_gti = models.IntegerField('Gobierno territorial indigena (GTI)', choices=SINO_CHOICE)
+    gobierno_gti = models.IntegerField('Gobierno territorial indígena (GTI)', choices=SINO_CHOICE)
     nombre_gti = models.ForeignKey(GobiernoGti, null=True, blank=True)
     area_trabajo = models.ManyToManyField(TrabajoTranformacion)
     servicio_secado = models.ManyToManyField(ServicioSecado)
@@ -595,8 +596,9 @@ class SeguimientoPrimeraTransformacion(models.Model):
     nombre_empresa = models.ForeignKey(EmpresaPrimeraTransformacion)
 
     class Meta:
-        verbose_name = ('Seguimiento Empresa forestal primera transformación')
-        verbose_name_plural = ('Seguimiento Empresa forestal primera transformación')
+        verbose_name = ('Seguimiento empresa forestal primera transformación')
+        verbose_name_plural = ('Seguimiento empresa forestal primera transformación')
+        unique_together = ('nombre_empresa',)
             
     def __unicode__(self):
         return self.nombre_empresa.nombre_corto
@@ -605,7 +607,7 @@ class AsistenciaTecnica(models.Model):
     nombre = models.CharField(max_length=50)
 
     class Meta:
-        verbose_name_plural = "Asistencia tecnica"
+        verbose_name_plural = "Asistencia técnica"
 
     def __unicode__(self):
         return self.nombre
@@ -632,7 +634,7 @@ class RelacionComercial(models.Model):
     nombre = models.CharField(max_length=50)
 
     class Meta:
-        verbose_name_plural = "Tipo de relacion comercial"
+        verbose_name_plural = "Tipo de relación comercial"
 
     def __unicode__(self):
         return self.nombre
@@ -653,7 +655,7 @@ class DatosPrimeraTransforma(models.Model):
     hombres = models.IntegerField()
     mujeres = models.IntegerField()
     tipo_certificacion = models.ManyToManyField(TipoCertificacion, 
-                        verbose_name="Tipo de certificacion")
+                        verbose_name="Tipo de certificación")
     codigo_certificacion = models.CharField(max_length=100)
     estado_certificado = models.IntegerField(choices=ESTADO_CERTIFICADO_CHOICE)
     entidad_certificadora = models.ForeignKey(EntidadCertificadora, null=True, blank=True)
@@ -664,7 +666,7 @@ class DatosPrimeraTransforma(models.Model):
     empresa = models.ForeignKey(EmpresaComercializadora, null=True, blank=True)
     relacion = models.ForeignKey(RelacionComercial, null=True, blank=True)
     producto_vende = models.ManyToManyField(ProductoVenden, null=True, blank=True)
-    desde = models.IntegerField('Desde cuando le vende', null=True, blank=True)
+    desde = models.IntegerField('Desde cuándo le vende', null=True, blank=True)
     volumen_madera_rollo = models.FloatField()
     volumen_madera_aserrada = models.FloatField()
     volumen_carbon = models.FloatField()
@@ -676,7 +678,7 @@ class DatosPrimeraTransforma(models.Model):
     #    return self.fecha
 
     class Meta:
-        verbose_name_plural = "Datos de seguimiento primera transformacion"
+        verbose_name_plural = "Datos de seguimiento de primera transformación"
 
 #-------------------------------- Empresa forestal de segunda transformacion --------------
 
@@ -684,7 +686,7 @@ class AreaTrabajoSegunda(models.Model):
     nombre = models.CharField(max_length=50)
 
     class Meta:
-        verbose_name_plural = "Area de trabajo segunda transformacion"
+        verbose_name_plural = "Área de trabajo de segunda transformación"
 
     def __unicode__(self):
         return self.nombre
@@ -720,7 +722,7 @@ class NivelTecnologico(models.Model):
     nombre = models.CharField(max_length=50)
 
     class Meta:
-        verbose_name_plural = "Nivel Tecnológico"
+        verbose_name_plural = "Nivel tecnológico"
 
     def __unicode__(self):
         return self.nombre  
@@ -740,13 +742,13 @@ class EmpresaSegundaTransformacion(models.Model):
     empresa = models.ForeignKey(Empresa)
     nombre_comercial = models.CharField(max_length=200)
     nombre_corto = models.CharField(max_length=50)
-    creacion = models.IntegerField('Año de creacioón')
+    creacion = models.IntegerField('Año de creación')
     funcionando = models.IntegerField('Años funcionando')
     org_empresarial = models.ManyToManyField(OrganizacionEmpresarial)
     nombre_director = models.CharField(max_length=200)
     cedula = models.CharField(max_length=50)
     organizado = models.ManyToManyField(Organizado)
-    desde = models.DateField()
+    desde = models.DateField(null=True, blank=True)
     tel_convencional = models.CharField(max_length=50, null=True, blank=True)
     tel_celular = models.CharField(max_length=50, null=True, blank=True)
     correo = models.EmailField(null=True, blank=True)
@@ -769,7 +771,7 @@ class EmpresaSegundaTransformacion(models.Model):
     )
     latitud = models.FloatField(null=True, blank=True)
     longitud = models.FloatField(null=True, blank=True)
-    gobierno_gti = models.IntegerField('Gobierno territorial indigena (GTI)', choices=SINO_CHOICE)
+    gobierno_gti = models.IntegerField('Gobierno territorial indígena (GTI)', choices=SINO_CHOICE)
     nombre_gti = models.ForeignKey(GobiernoGti, null=True, blank=True)
     area_trabajo = models.ManyToManyField(AreaTrabajoSegunda)
     apoyo_produccion = models.ManyToManyField(ApoyoProduccion)
@@ -788,7 +790,7 @@ class EmpresaSegundaTransformacion(models.Model):
         return self.nombre_comercial
 
     class Meta:
-        verbose_name_plural = "Empresas forestal de segunda tranformación"
+        verbose_name_plural = "Empresas forestal de segunda transformación"
 #----------------------- seguimiento de la segunda tranformacion --------------------
 
 class SeguimientoSegundaTranformacion(models.Model):
@@ -796,8 +798,10 @@ class SeguimientoSegundaTranformacion(models.Model):
 
     def __unicode__(self):
         return self.nombre.nombre_comercial
+
     class Meta:
-        verbose_name_plural = "Seguimiento Empresas forestal de segunda tranformación"
+        verbose_name_plural = "Seguimiento empresa forestal de segunda transformación"
+        unique_together = ('nombre',)
 
 class AlianzaNegocion(models.Model):
     nombre = models.CharField(max_length=200)
@@ -815,6 +819,14 @@ class PrestadoresServicioOperacionales(models.Model):
         verbose_name_plural = "Principales prestadores de servicios operacionales"
 
 # ---------------------------Datos seguimiento segunda tranformación ---------------------
+class TipoProductoSegundaTransformacion(models.Model):
+    nombre = models.CharField(max_length=150)
+
+    def __unicode__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name_plural = "Tipos de productos de la segunda transformación"
 
 class DatosSegundaTranformacion(models.Model):
     fecha = models.DateField()
@@ -822,8 +834,8 @@ class DatosSegundaTranformacion(models.Model):
     hombres = models.IntegerField()
     mujeres = models.IntegerField()
     tipo_certificacion = models.ManyToManyField(TipoCertificacion, 
-                        verbose_name="Tipo de certificacion")
-    codigo = models.CharField('Codigo de certificación', max_length=50)
+                        verbose_name="Tipo de certificación")
+    codigo = models.CharField('Código de certificación', max_length=50)
     estado_certificado = models.IntegerField(choices=ESTADO_CERTIFICADO_CHOICE)
     entidad_certificadora = models.ForeignKey(EntidadCertificadora, null=True, blank=True)
     fecha_status = models.DateField()
@@ -831,7 +843,7 @@ class DatosSegundaTranformacion(models.Model):
     servicio_operacionales = models.ManyToManyField(PrestadoresServicioOperacionales, null=True, blank=True)
     #empresa = models.ForeignKey(EmpresaComercializadora)
     relacion = models.ForeignKey(RelacionComercial, null=True, blank=True)
-    tipo_producto = models.ManyToManyField(TipoProducto, null=True, blank=True)
+    t_producto = models.ManyToManyField(TipoProductoSegundaTransformacion, verbose_name=u'Tipo producto',null=True, blank=True)
     desde_cuando = models.DateField(null=True, blank=True)
     volumen_promedio = models.FloatField(null=True, blank=True)
 
@@ -841,5 +853,5 @@ class DatosSegundaTranformacion(models.Model):
         return self.codigo
 
     class Meta:
-        verbose_name = ('Datos de seguimiento segunda tranformación')
-        verbose_name_plural = ('Datos de seguimiento segunda tranformación')
+        verbose_name = ('Datos de seguimiento segunda transformación')
+        verbose_name_plural = ('Datos de seguimiento segunda transformación')
